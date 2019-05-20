@@ -5,11 +5,12 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 	"github.com/paypal/gatt"
 	"github.com/paypal/gatt/examples/option"
 )
 
-var deviceID int64 =  1622347;
+var deviceID string =  "1622347";
 
 func onStateChanged(device gatt.Device, s gatt.State) {
 	switch s {
@@ -32,8 +33,8 @@ func onPeripheralDiscovered(p gatt.Peripheral, a *gatt.Advertisement, rssi int) 
 		}
 		q := req.URL.Query()
 		q.Add("id", deviceID)
-		q.Add("lat", b.minor)
-		q.Add("lon", b.major)
+		q.Add("lat", strconv.Itoa(int(b.minor)))
+		q.Add("lon", strconv.Itoa(int(b.major)))
 		req.URL.RawQuery = q.Encode()
 			 
 		fmt.Println("UUID: ", b.uuid)
