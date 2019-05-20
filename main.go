@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"github.com/paypal/gatt"
 	"github.com/paypal/gatt/examples/option"
 )
@@ -24,9 +25,17 @@ func onStateChanged(device gatt.Device, s gatt.State) {
 func onPeripheralDiscovered(p gatt.Peripheral, a *gatt.Advertisement, rssi int) {
 	b, err := NewiBeacon(a.ManufacturerData)
 	if err == nil {
-		resp, err := http.PostForm("https://us-central1-lastleafd.cloudfunctions.net/beaconiee/",
-					 url.Values{"id": {deviceID}, "lat": {b.minor}, "lon":{b.major}})
-					 
+		req, err := http.NewRequest("GET", "https://us-central1-lastleafd.cloudfunctions.net/beaconiee/", nil)
+		if err != nil {
+			log.Print(err)
+			os.Exit(1)
+		}
+		q := req.URL.Query()
+		q.Add("id", deviceID)
+		q.Add("lat", b.minor)
+		q.Add("lon", b.major)
+		req.URL.RawQuery = q.Encode()
+			 
 		fmt.Println("UUID: ", b.uuid)
 		fmt.Println("Major: ", b.major)
 		fmt.Println("Minor: ", b.minor)
