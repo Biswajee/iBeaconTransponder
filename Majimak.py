@@ -28,7 +28,7 @@ def messageSIM():
     "sudo","curl", "--interface", "usb0", "-X", "POST", "-H", 
     "X-Soracom-API-Key: <YOUR_API_KEY>", "-H",
     "X-Soracom-Token: <YOUR_API_TOKEN>",
-    "-H", "Content-Type: application/json", "-d", '{ "body": "There is an emergency for device id: <YOUR_DEVICE_ID>" }', "https://g.api.soracom.io/v1/subscribers/295050910701999/send_sms"
+    "-H", "Content-Type: application/json", "-d", '{ "body": "There is an emergency for device id: <YOUR_DEVICE_ID>" }', "https://g.api.soracom.io/v1/subscribers/<NOT_RANDOM>/send_sms"
     ])
     subprocess.call([
     "sudo","./go_lastleaf"
